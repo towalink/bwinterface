@@ -2,7 +2,7 @@
 
 A Python wrapper around the "bw" (Bitwarden) CLI tool
 
-The "bw" command line utility is used for accessing Bitwarden vaults or Vaultwarden vaults. At time of writing, there is no stable official module for accessing such vaults using Python. Therefore this module provides a low-level Python wrapper around the "bw" CLI utility. A bunch of higher-level methods and facilities are provided for increased convenience, too.
+The "bw" command line utility is used for accessing Bitwarden vaults or Vaultwarden vaults. At time of writing, there is no stable official module for accessing such vaults using Python. Therefore, this module provides a low-level Python wrapper around the "bw" CLI utility. A bunch of higher-level methods and facilities are provided for increased convenience, too.
 
 ---
 
@@ -31,7 +31,7 @@ pip3 install bwinterface
 
 ### Accessing the bw CLI using bwinterface
 
-The following code snippets provide examples on how bwinterface is used:
+The following code snippets provide examples on how `bwinterface` is used:
 
 ```python
 import bwinterface
@@ -97,15 +97,13 @@ Please see the section below for full API documentation.
 
 *Returns a dictionary of (cached) organizations with organization identifiers as keys*
 
-Notes:
-* This just differently formats the data provided by the `organization`property.
+Note: This just differently formats the data provided by the `organization` property.
 
 #### organizations_asdictbyname
 
 *Returns a dictionary of (cached) organizations with organization names as keys*
 
-Notes:
-* This just differently formats the data provided by the `organization`property.
+Note: This just differently formats the data provided by the `organization` property.
 
 ### Methods for interaction (in alphabetical order)
 
@@ -227,11 +225,11 @@ Note: it is possible to enter a search term (use double quotes) instead of an it
 
 *Converts a string identifying an organization into the organization's UUID*
 
-#### `get_organizations(self)`
+#### `get_organizations()`
 
 *Gets a list of organizations*
 
-#### `get_status(self)`
+#### `get_status()`
 
 *Gets status information*
 
@@ -255,7 +253,7 @@ Note: it is possible to enter a search term (use double quotes) instead of an it
 
 *Logs in using the provided API credentials*
 
-#### `logout(self)`
+#### `logout()`
 
 *Logout from vault*
 
@@ -267,7 +265,7 @@ Note: it is possible to enter a search term (use double quotes) instead of an it
 
 *Configures the server to use*
 
-#### `sync(self)`
+#### `sync()`
 
 *Gets updates from the remote vault*
 
@@ -309,4 +307,4 @@ pip3 install -e <path to root of "src" directory>
 
 - **[MIT license](https://opensource.org/licenses/MIT)**
 - Copyright 2024 © <a href="https://github.com/towalink/bwinterface" target="_blank">Dirk Henrici</a>.
-- This project is not related with Bitwarden or Vaultwarden.
+- This project is not associated with Bitwarden or Vaultwarden.
