@@ -28,13 +28,15 @@ class BWInterface():
     _items_asdictbyname = None
     _items_organization = None
     
-    def __init__(self, bw_cli='/opt/bitwarden/bw', show_bwcommands=True, sparse_output=False, suppressoutput=True, suppresserrors=False):
+    def __init__(self, bw_cli='/opt/bitwarden/bw', print_bwcommands=True, print_resultdata=False, print_indent=0, sparse_output=False, suppress_output=True, suppress_errors=False):
         """Initialize instance"""
         self.bw_cli = bw_cli
-        self.show_bwcommands = show_bwcommands
+        self.print_bwcommands = print_bwcommands
+        self.print_resultdata = print_resultdata
+        self.print_indent = print_indent
         self.sparse_output = sparse_output
-        self.suppressoutput = suppressoutput
-        self.suppresserrors = suppresserrors
+        self.suppress_output = suppress_output
+        self.suppress_errors = suppress_errors
 
     def invalidate_organization_cache(self):
         """Clears the organization cache"""
@@ -72,8 +74,6 @@ class BWInterface():
 
     def run_process(self, command, env=None):
         """Execute a command and return result"""
-        if self.show_bwcommands:
-            print(command)
         args = shlex.split(command)
         if env is not None:
             newenv = os.environ.copy()
@@ -83,14 +83,15 @@ class BWInterface():
         cpe = subprocess.run(args, env=newenv, capture_output=True)
         out = cpe.stdout.decode('utf8')
         err = cpe.stderr.decode('utf8')
-        if not self.suppresserrors and (len(err) > 0):
+        if not self.suppress_errors and (len(err) > 0):
             print(err.strip())
-        if not self.suppressoutput and (len(out) > 0):
+        if not self.suppress_output and (len(out) > 0):
             print(out.strip())
         return cpe.returncode, out, err
 
     def execute(self, command, env=None, datadict=None, nojson=False, sparse_output=None, pretty=None):
         """Execute a bw command and return result"""
+        command = f'{self.bw_cli} {command}'
         if self.session is not None:
             if env is None:
                 env = dict()
@@ -102,11 +103,18 @@ class BWInterface():
         if pretty:
             command += ' --pretty'            
         if datadict is not None:
+            if self.print_bwcommands:
+                print(command, json.dumps(datadict, sort_keys=True, indent=self.print_indent, default=str) if (self.print_indent is not None) else datadict)
             command += ' ' + self.dict2base64(datadict)
-        rc, out, err = self.run_process(f'{self.bw_cli} {command}', env=env) 
+        else:
+            if self.print_bwcommands:
+                print(command)
+        rc, out, err = self.run_process(command, env=env) 
         data = list()
         if (rc == 0) and (out.startswith('[') or out.startswith('{') and not nojson):
             data = json.loads(out)
+            if self.print_resultdata:
+                print(json.dumps(data, sort_keys=True, indent=self.print_indent, default=str) if (self.print_indent is not None) else data)
         return self.result_tuple(rc, out, err, data)
 
     def set_config_server(self, server):
@@ -504,9 +512,6 @@ class BWInterface():
     def dict2base64(self, datadict):
         """Encodes a dictionary into a base64-encoded JSON notation"""
         data = json.dumps(datadict)
-        
-        print(data)
-        
         data = bytes(data, 'utf-8')
         data = base64.b64encode(data)
         return data.decode('utf-8')

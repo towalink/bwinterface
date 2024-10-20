@@ -7,7 +7,7 @@ with open('README.md', 'r') as f:
 
 setup_kwargs = {
     'name': 'bwinterface',
-    'version': '0.1.0',
+    'version': '0.2.0',
     'author': 'Dirk Henrici',
     'author_email': 'towalink.bwinterface@henrici.name',
     'description': 'access the Bitwarden/Vaultwarden CLI ("bw") conveniently',

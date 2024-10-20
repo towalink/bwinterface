@@ -107,20 +107,24 @@ Note: This just differently formats the data provided by the `organization` prop
 
 ### Methods for interaction (in alphabetical order)
 
-#### `__init__(bw_cli='./bw', show_bwcommands=True, sparse_output=False, suppressoutput=True, suppresserrors=False)`
+#### `__init__(bw_cli='/opt/bitwarden/bw', print_bwcommands=True, print_resultdata=False, print_indent=None, sparse_output=False, suppress_output=True, suppress_errors=False)`
 
 *Initializes the instance*
 
 Parameters:
 * "bw_cli" (str, optional, default: "/opt/bitwarden/bw"): Path to the "bw" command line utility
     The bwinterface module depends on the "bw" CLI utility for its operation. Provide the full path to the tool that shall be used.
-* "show_bwcommands" (boolean, optional, default: True): Echo "bw" commands
-    If True, each "bw" command executed is printed to stdout to show what is going on.
+* "print_bwcommands" (boolean, optional, default: True): Echo "bw" commands
+    If True, each "bw" command executed is printed to stdout to show what is going on. JSON data is shown without encoding.
+* "print_resultdata" (boolean, optional, default: True): Echo "bw" commands
+    If True, the JSON data returned by each "bw" is printed to stdout.
+* "print_indent" (boolean, optional, default: None): Indentation for JSON pretty printing
+    If provided, JSON data is printed prettily with the specified indentation (try 2).
 * "sparse_output" (boolean, optional, default: False): Reduce amount of output
     If True, "--raw" output of "bw" ise provided only.
-* "suppressoutput" (boolean, optional, default: True): Don't show output of "bw" utility
+* "suppress_output" (boolean, optional, default: True): Don't show output of "bw" utility
     If True, the full output to stdout of the "bw" utility is printed.
-* "suppresserrors" (boolean, optional, default: False): Don't show error output of "bw" utility
+* "suppress_errors" (boolean, optional, default: False): Don't show error output of "bw" utility
     If True, the full output to stderr of the "bw" utility is printed.
 
 Examples:
