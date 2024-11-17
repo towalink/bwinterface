@@ -129,6 +129,10 @@ class BWInterface():
 
     def login_apikey(self, clientid, clientsecret):
         """Logs in using the provided API credentials"""
+        if clientid is None:
+            raise ValueError('Proper BW_CLIENTID must be provided')
+        if clientsecret is None:
+            raise ValueError('Proper BW_CLIENTSECRET must be provided')
         env = dict()
         env['BW_CLIENTID'] = clientid
         env['BW_CLIENTSECRET'] = clientsecret
@@ -145,6 +149,8 @@ class BWInterface():
 
     def unlock(self, pwd):
         """Unlocks the vault with the provided password"""
+        if pwd is None:
+            raise ValueError('Proper BW_PASSWORD must be provided')
         env = dict()
         env['BW_PASSWORD'] = pwd
         result = self.execute('unlock --passwordenv BW_PASSWORD --raw', env)
